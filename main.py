@@ -31,10 +31,19 @@ def get_lists():
     dir2 = cnf['def']['directory2']
     saveDir = cnf['def']['saveDir']
     return dir1 ,dir2 , saveDir
-
+def rsOptions(rsPath):
+    for idx, i in enumerate(rsPath):
+        rs = dcmread(i).StructureSetROISequence
+        print("-------------------------")
+        print('RS index:',idx+1,'\t filename:',i)
+        for j in range(len(rs)):
+            print('\t',j,') ',rs[j].ROIName)
+    
+    return dcmread(rsPath[int(input('Select RS index: ')) - 1])
 if __name__ == '__main__':
     dir1 ,dir2 , saveDir= get_lists()
     # ScanDir()
     rsPath = []
     rsPath = ScanDir.rsScan(rsPath,dir1)
-    print(rsPath)
+    rsPath = ScanDir.rsScan(rsPath,dir2)
+    rs = rsOptions(rsPath)
